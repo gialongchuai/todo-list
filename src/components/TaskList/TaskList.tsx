@@ -3,38 +3,39 @@ import style from "./taskList.module.scss";
 import Todo from "../../@types/todo.type";
 
 interface TaskListProps {
+  todos: Todo[];
+  handleDoneTodo: (id: string, done: boolean) => void;
   doneTaskList?: boolean;
 }
 
 export default function TaskList(props: TaskListProps) {
-  const { doneTaskList } = props;
-  const [todo, setTodo] = useState<Todo[]>([]);
-
-  const addTodo = (name: string) => {
-    const todo: Todo = {
-      name,
-      done: false,
-      id: new Date().toISOString(),
-    };
-    setTodo((pre) => [...pre, todo]);
-  };
+  const { todos, handleDoneTodo, doneTaskList } = props;
   return (
     <div>
       <div>
         <h2 className={style.h2}>
           {doneTaskList ? "Hoàn thành" : "Chưa hoàn thành"}
         </h2>
-        <div className={style.item}>
-          <div>
-            <input type="checkbox" name="" id="" />
-            <span>Code HTML</span>
-          </div>
-          <div>
-            {" "}
-            <button className={style.button}>🖊️</button>
-            <button className={style.button}>🗑️</button>
-          </div>
-        </div>
+        {todos.length === 0 ? (
+          <p>Không có công việc!</p>
+        ) : (
+          todos.map((todo) => (
+            <div key={todo.id} className={style.item}>
+              <div className={style.info}>
+                <input
+                  type="checkbox"
+                  checked={todo.done}
+                  onChange={(e) => handleDoneTodo(todo.id, e.target.checked)}
+                />
+                <span className={todo.done ? style.done : ""}>{todo.name}</span>
+              </div>
+              <div>
+                <button className={style.button}>🖊️</button>
+                <button className={style.button}>🗑️</button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

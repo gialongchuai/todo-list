@@ -1,15 +1,23 @@
 .item {
   display: flex;
   justify-content: space-between;
+  padding: 15px 0;
 }
 
 .button {
-    padding: 5px;
-    border-radius: 5px;
-    border-color: #bea6bf;
-    margin-left: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border-color: #bea6bf;
+  margin-left: 5px;
 }
 
 .h2 {
-    color: #79557a;
+  color: #79557a;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
 }

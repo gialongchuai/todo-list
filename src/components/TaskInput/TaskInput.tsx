@@ -8,19 +8,22 @@ interface TaskInputProps {
 export default function TaskInput(props: TaskInputProps) {
   const { addTodo } = props;
   const [name, setName] = useState<string>("");
-  const handleSubmit = () => {
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     addTodo(name);
+    setName("");
   };
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setName(value);
   };
 
   return (
     <div>
       <h1 className={style.h1}>To do list typescript</h1>
-      <div className={style.input_caption}>
+      <form className={style.input_caption} onSubmit={handleSubmit}>
         <input
           className={style.input_text}
           placeholder="Caption goes here"
@@ -29,8 +32,10 @@ export default function TaskInput(props: TaskInputProps) {
           id=""
           onChange={onChangeInput}
         />
-        <button className={style.button}>➕</button>
-      </div>
+        <button type="submit" className={style.button}>
+          ➕
+        </button>
+      </form>
     </div>
   );
 }
