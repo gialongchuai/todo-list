@@ -62,6 +62,11 @@ export default function TodoList() {
     setCurrentTodo(null); // sau khi set thì set lại currentTodo là null để không còn sửa ông nào nữa.
   };
 
+  const deleteTodo = (id: string) => {
+    setCurrentTodo(null); // hàm delete này đi qua từng todo trả về mảng mới 
+    setTodos((pre) => pre.filter(todo => todo.id !== id)); // bỏ ông id muốn xóa ra
+  }
+
   return (
     <div className={style.app}>
       <TaskInput
@@ -74,12 +79,14 @@ export default function TodoList() {
         todos={notDoneTodos}
         handleDoneTodo={handleDoneTodo}
         findTodo={findTodo}
+        deleteTodo={deleteTodo}
       />
       <TaskList
         todos={doneTodos}
         doneTaskList // hoàn thành
         handleDoneTodo={handleDoneTodo}
         findTodo={findTodo}
+        deleteTodo={deleteTodo}
       />
     </div>
   );
