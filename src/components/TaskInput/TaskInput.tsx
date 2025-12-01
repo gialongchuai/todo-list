@@ -1,23 +1,35 @@
 import React, { useState } from "react";
 import style from "./taskInput.module.scss";
+import Todo from "../../@types/todo.type";
 
 interface TaskInputProps {
   addTodo: (name: string) => void;
+  currentTodo: Todo | null | undefined;
+  editTodo: (name: string) => void;
+  saveTodo: () => void
 }
 
 export default function TaskInput(props: TaskInputProps) {
-  const { addTodo } = props;
+  const { addTodo, currentTodo, editTodo, saveTodo } = props;
   const [name, setName] = useState<string>(""); // name là value của input nhập do thay đổi liên tục nên state thôi
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // tránh refresh trình duyệt
-    addTodo(name); // submit thì callback gọi addToDo
+    if (currentTodo) { // nếu mà submit mà tồn tịa currentTodo tức todo đang sửa thì gọi saveTodo
+      saveTodo();
+    } else { // ngược lại tức là thêm 1 todo mới
+      addTodo(name); // submit thì callback gọi addToDo
+    }
     setName(""); // sau khi add success thì clear input
   };
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setName(value); // mỗi lần thay đổi set lại State
+    if (currentTodo) { // nếu đang sửa 1 todo callback bên kia gọi để set lại currentTodo với name đã
+      editTodo(value); // đnag thay đổi
+    } else {
+      setName(value); // mỗi lần thay đổi set lại State
+    }
   };
 
   return (
@@ -31,10 +43,10 @@ export default function TaskInput(props: TaskInputProps) {
           name=""
           id=""
           onChange={onChangeInput}
-          value={name} // mỗi lần changeInput thì nhớ set lại value là name mới nhé! 
+          value={currentTodo ? currentTodo.name : name} // mỗi lần changeInput thì nhớ set lại value là name mới nhé!
         />
         <button type="submit" className={style.button}>
-          ➕
+          {!currentTodo ? "➕" : "☑️"}
         </button>
       </form>
     </div>

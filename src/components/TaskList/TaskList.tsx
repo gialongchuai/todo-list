@@ -6,14 +6,16 @@ interface TaskListProps {
   todos: Todo[];
   handleDoneTodo: (id: string, done: boolean) => void;
   doneTaskList?: boolean;
+  findTodo: (id: string) => void;
 }
 
 export default function TaskList(props: TaskListProps) {
-  const { todos, handleDoneTodo, doneTaskList } = props;
+  const { todos, handleDoneTodo, doneTaskList, findTodo } = props;
+
   return (
     <div>
       <div>
-        <h2 className={style.h2}>
+        <h2 className={`${style.h2} ${doneTaskList ? style.done : ""}`}>
           {doneTaskList ? "Hoàn thành" : "Chưa hoàn thành"}
         </h2>
         {todos.length === 0 ? (
@@ -31,7 +33,7 @@ export default function TaskList(props: TaskListProps) {
                 <span className={todo.done ? style.done : ""}>{todo.name}</span>
               </div>
               <div>
-                <button className={style.button}>🖊️</button>
+                <button className={style.button} onClick={() => findTodo(todo.id)}>🖊️</button>
                 <button className={style.button}>🗑️</button>
               </div>
             </div>
