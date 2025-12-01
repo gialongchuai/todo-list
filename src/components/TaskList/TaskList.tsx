@@ -25,7 +25,8 @@ export default function TaskList(props: TaskListProps) {
                 <input
                   type="checkbox"
                   checked={todo.done}
-                  onChange={(e) => handleDoneTodo(todo.id, e.target.checked)}
+                  onChange={(e) => handleDoneTodo(todo.id, e.target.checked)} // Xử lý 
+                  // khi người dùng nhấn vào checkbox done hoặc notdone => callback fun
                 />
                 <span className={todo.done ? style.done : ""}>{todo.name}</span>
               </div>

@@ -15,17 +15,16 @@ export default function TodoList() {
       done: false,
       id: new Date().toISOString(),
     };
-    console.log(todos);
     setTodos((pre) => [...pre, todo]);
   };
 
   const handleDoneTodo = (id: string, done: boolean) => {
-    setTodos((pre) => {
+    setTodos((pre) => { // duyệt qua mỗi cái todo chứa 3 field
       return pre.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, done };
+        if (todo.id === id) { // tìm đúng id đã click done or notdone
+          return { ...todo, done }; // set lại các field ban đầu và set lại done mới
         }
-        return todo;
+        return todo; // trả về todo với id đã fix
       });
     });
   };
@@ -33,13 +32,13 @@ export default function TodoList() {
   return (
     <div className={style.app}>
       <TaskInput addTodo={addTodo} />
-      <TaskList
+      <TaskList // ko hoàn thành không truyền bên prop hứng ko có thì mặc định là false
         todos={notDoneTodos}
         handleDoneTodo={handleDoneTodo}
       />
       <TaskList
         todos={doneTodos}
-        doneTaskList
+        doneTaskList // hoàn thành
         handleDoneTodo={handleDoneTodo}
       />
     </div>
